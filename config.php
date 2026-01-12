@@ -31,4 +31,4 @@ define('CSRF_TOKEN_NAME', 'csrf_token');
 // Admin credentials (CHANGE THESE IN PRODUCTION!)
 define('ADMIN_USERNAME', 'admin');
 // Default password is 'admin123' - CHANGE THIS!
-define('ADMIN_PASSWORD_HASH', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi');
+define('ADMIN_PASSWORD_HASH', '$2y$10$KkqCze4Yoh83QsG4LCy/ueBW8VF1nyiQvyOTemP4jF0ZPI95WBPsK');
