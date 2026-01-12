@@ -1,11 +1,5 @@
 -- SoMe Planner Database Schema
--- Create database and tables
-
-CREATE DATABASE IF NOT EXISTS some_planner
-    CHARACTER SET utf8mb4
-    COLLATE utf8mb4_unicode_ci;
-
-USE some_planner;
+-- Create tables
 
 -- Shops table
 CREATE TABLE IF NOT EXISTS shops (
