@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SoMe Planner</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h1 class="text-center mb-4" style="font-size: var(--font-size-3xl); font-weight: var(--font-weight-bold);">
+                SoMe Planner
+            </h1>
+            <p class="text-center mb-4" style="color: var(--color-text-secondary);">
+                Log ind for at administrere sociale medier
+            </p>
+
+            <div id="alertContainer"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="username">Brugernavn</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        class="form-input" 
+                        required 
+                        autocomplete="username"
+                        autofocus
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Adgangskode</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="form-input" 
+                        required 
+                        autocomplete="current-password"
+                    >
+                </div>
+
+                <button type="submit" class="btn btn-primary w-full" id="loginBtn">
+                    <span id="loginBtnText">Log ind</span>
+                    <span id="loginBtnSpinner" class="spinner hidden"></span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { ApiService } from './js/ApiService.js';
+
+        const apiService = new ApiService();
+        const form = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginBtnText = document.getElementById('loginBtnText');
+        const loginBtnSpinner = document.getElementById('loginBtnSpinner');
+        const alertContainer = document.getElementById('alertContainer');
+
+        // Check if already authenticated
+        checkAuth();
+
+        async function checkAuth() {
+            try {
+                const response = await apiService.checkAuth();
+                if (response.data.authenticated) {
+                    window.location.href = '/';
+                }
+            } catch (error) {
+                // Not authenticated, stay on login page
+            }
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Clear previous alerts
+            alertContainer.innerHTML = '';
+
+            // Disable form
+            loginBtn.disabled = true;
+            loginBtnText.classList.add('hidden');
+            loginBtnSpinner.classList.remove('hidden');
+
+            try {
+                const response = await apiService.login(username, password);
+                
+                if (response.success) {
+                    // Show success message
+                    showAlert('Login succesfuld! Omdirigerer...', 'success');
+                    
+                    // Redirect after short delay
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 1000);
+                } else {
+                    showAlert(response.error || 'Login fejlede', 'error');
+                    enableForm();
+                }
+            } catch (error) {
+                showAlert(error.message || 'Login fejlede. Tjek dine oplysninger.', 'error');
+                enableForm();
+            }
+        });
+
+        function enableForm() {
+            loginBtn.disabled = false;
+            loginBtnText.classList.remove('hidden');
+            loginBtnSpinner.classList.add('hidden');
+        }
+
+        function showAlert(message, type) {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type} mb-3`;
+            alert.textContent = message;
+            alertContainer.appendChild(alert);
+        }
+    </script>
+</body>
+</html>
