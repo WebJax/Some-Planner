@@ -34,6 +34,12 @@ cp config.example.php config.php
 
 Rediger `config.php` og tilpas databaseindstillinger og andre parametre.
 
+**⚠️ VIGTIGT FOR PRODUKTION:**
+- `config.php` indeholder default credentials til udvikling
+- For produktion, tilføj `config.php` til `.gitignore`
+- Brug altid stærke, unikke passwords
+- Skift admin-adgangskoden før deployment
+
 ### 4. Opret admin-adgangskode
 
 Kør følgende PHP-kode for at generere en password hash:

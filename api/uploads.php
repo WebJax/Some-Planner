@@ -86,7 +86,7 @@ function handleUpload($db) {
 
     // Create upload directory if it doesn't exist
     if (!is_dir(UPLOAD_DIR)) {
-        mkdir(UPLOAD_DIR, 0755, true);
+        mkdir(UPLOAD_DIR, 0750, true);
     }
 
     // Move uploaded file
