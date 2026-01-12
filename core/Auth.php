@@ -108,11 +108,18 @@ class Auth {
         if (in_array($method, ['POST', 'PUT', 'DELETE'])) {
             $token = null;
             
-            // Check header first
-            $headers = getallheaders();
-            if (isset($headers['X-CSRF-Token'])) {
-                $token = $headers['X-CSRF-Token'];
-            } elseif (isset($_POST[CSRF_TOKEN_NAME])) {
+            // Check header first (portable approach)
+            if (isset($_SERVER['HTTP_X_CSRF_TOKEN'])) {
+                $token = $_SERVER['HTTP_X_CSRF_TOKEN'];
+            } elseif (function_exists('getallheaders')) {
+                $headers = getallheaders();
+                if (isset($headers['X-CSRF-Token'])) {
+                    $token = $headers['X-CSRF-Token'];
+                }
+            }
+            
+            // Check POST data as fallback
+            if (!$token && isset($_POST[CSRF_TOKEN_NAME])) {
                 $token = $_POST[CSRF_TOKEN_NAME];
             }
 
