@@ -6,15 +6,15 @@
  */
 
 // Database configuration
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'some_planner');
+define('DB_HOST', '127.0.0.1');
+define('DB_NAME', 'someplanner');
 define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_PASS', '2010Thuva');
 define('DB_CHARSET', 'utf8mb4');
 
 // Application settings
 define('APP_NAME', 'SoMe Planner');
-define('APP_URL', 'http://localhost:8000');
+define('APP_URL', 'https://someplanner.test');
 
 // Upload settings
 define('UPLOAD_DIR', __DIR__ . '/uploads/');
